@@ -45,6 +45,7 @@ if(isProduction){
 
 
 require('./models/User');
+require('./config/passport');
 app.use(require('./routes')); //sve routes su ovdje
 
 
@@ -60,7 +61,7 @@ app.use(function(req,res,next){
 
 
 if(!isProduction){
-    app.use(function(err, req,res, next){
+    app.use(function(err, req, res, next){
         console.log(err.stack);
 
         res.status(err.status || 500);
@@ -74,9 +75,7 @@ if(!isProduction){
 
 
 app.use(function(err, req,res, next){
-
     res.status(err.status || 500);
-
     res.json({'errors': {
         message: err.message,
         error: {}
