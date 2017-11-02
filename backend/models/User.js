@@ -43,4 +43,10 @@ UserSchema.methods.toAuthJSON = function(){
     };
 };
 
+UserSchema.methods.toProfileJSON = function(){
+    return {
+        username: this.username
+    };
+};
+
 mongoose.model('User', UserSchema);
