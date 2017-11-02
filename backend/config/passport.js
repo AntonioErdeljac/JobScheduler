@@ -13,6 +13,6 @@ passport.use(new LocalStrategy({
             return done(null, false, {errors: {password: 'je netočna'}});
         }
 
-        return done(null, false);
+        return done(null, user);
     }).catch(done);
 }));
