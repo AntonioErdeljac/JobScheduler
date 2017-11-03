@@ -58,6 +58,17 @@ router.get('/:username', auth.required, function(req,res,next){
 });
 
 
+//ruta za fetchanje svih poslova
+
+router.get('/', auth.required, function(req,res,next){
+    agenda.jobs({}, function(err, jobs){
+        return res.json({
+            jobs: jobs
+        });
+    });
+});
+
+
 
 // ruta za brisanje poslova, (provjerava jeli zahtjevatelj brisanja autor posla, te dali postoji posao (403 ili 404))
 
