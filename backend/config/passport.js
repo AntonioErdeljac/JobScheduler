@@ -3,6 +3,8 @@ var LocalStrategy = require('passport-local');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 
+// passport provjerava postoji li email pri loginu u DB i jeli ispravna lozinka
+
 passport.use(new LocalStrategy({
     usernameField: 'user[email]',
     passwordField: 'user[password]'

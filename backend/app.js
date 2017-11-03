@@ -9,8 +9,8 @@ var cors = require('cors');
 var passport = require('passport');
 var errorhandler = require('errorhandler');
 var mongoose = require('mongoose');
-var Agenda = require('agenda');
 
+mongoose.promise = global.Promise;
 
 var isProduction = process.env.NODE_ENV === 'production';
 
@@ -43,18 +43,6 @@ if(isProduction){
     mongoose.connect('mongodb://localhost/jobscheduler'); //spajanje na lokalni DB posto nismo u produkciji
     mongoose.set('debug', true);
 }
-
-var agenda = new Agenda({db: {address: 'mongodb://localhost/jobscheduler',  collection: 'agendaJobs'}});
-
-agenda.define('show job', function(job) {
-    console.log(job);
-});
-
-
-agenda.on( "ready", function() {
-    agenda.start();
-    agenda.now("show job");
-});
 
 
 
