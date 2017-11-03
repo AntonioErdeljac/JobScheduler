@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css?family=Oxygen');
+
+body,html {
+    font-family: 'Oxygen' !important;
+}
+
+.navbar{
+    -webkit-box-shadow: 0 0 5px 0 rgba(0,0,0,.3);
+    -moz-box-shadow: 0 0 5px 0 rgba(0,0,0,.3);
+    box-shadow: 0 0 5px 0 rgba(0,0,0,.3);
+}
+
+.nav-button{
+    border-radius: 5px;
+    border-style: none;
+    padding: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,.1);
+}
+
+.active{
+    color: #2d89e5;
+    border-style: none;
+    border-bottom-style: solid;
+    border-width: 2px;
+}
+
+.loader {
+    border: 5px solid #f3f3f3; /* Light grey */
+    border-top: 5px solid #2d89e5; /* Blue */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin .6s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

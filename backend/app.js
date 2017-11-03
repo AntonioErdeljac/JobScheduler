@@ -46,8 +46,8 @@ if(isProduction){
 
 
 
-require('./models/User');
-require('./config/passport');
+require('./models/User'); //stavljam model iz drugog filea ovdje
+require('./config/passport'); //passport OBAVEZNO staviti nakon User modela, i svih modela koji koriste passport
 app.use(require('./routes')); //sve routes su ovdje
 
 

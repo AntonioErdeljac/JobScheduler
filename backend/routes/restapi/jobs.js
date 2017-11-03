@@ -5,7 +5,7 @@ var auth = require('../auth');
 var Agenda = require('agenda');
 var slug = require('slug');
 
-
+//postavke za slack integraciju
 
 var RtmClient = require('@slack/client').RtmClient;
 var CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS;
@@ -59,6 +59,8 @@ router.post('/', auth.required, function(req,res,next){
         agenda.schedule(scheduleProperty,'new job', {author: user, uniqueSlug: slugProperty});
 
 
+        //postavke za slack interaciju
+
         var channel = 'general';
 
         rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, function(rtmStartData){
@@ -68,11 +70,18 @@ router.post('/', auth.required, function(req,res,next){
         console.log('Logged in as '+rtmStartData.self.name+' of team '+rtmStartData.team.name+', but not yet connected to a channel');
         });
 
+        //slanje poruke na slack, koristio bio `${nekaVrijednost}`, ali nije postavljen ES6
+        //radi to svejedno ali mi smeta sto se crveni u WebStormu
+
         rtm.on(CLIENT_EVENTS.RTM.RTM_CONNECTION_OPENED, function () {
             rtm.sendMessage("*Novi posao:* "+req.body.job.title+', *Vrjieme*: '+req.body.job.schedule+', *Autor*: '+user.username+' *Slug*: '+slugProperty, channel);
         });
 
         rtm.start();
+
+
+        //trazim specificni job sa uniqueSlug koji sam stvorio pri schedulrianju agende
+        // zatim nadjem taj job i returnam ga kao json
 
         agenda.jobs({}, function(err, jobs){
             jobs.map(function(job){
@@ -83,9 +92,6 @@ router.post('/', auth.required, function(req,res,next){
                 }
             })
         })
-
-
-
 
 
     })
