@@ -11,8 +11,20 @@ class Main extends React.Component{
         return(
             <div className="container my-3">
                 <div className="row">
-                    <div className="col-12">
-                        <JobList/>
+                    <div className="col-8 offset-2">
+                        <nav className="nav my-3">
+                            <li className="nav-link active">
+                                Svi poslovi
+                            </li>
+                            <li className="nav-link" style={{color: 'rgba(0,0,0,.5)'}}>
+                                Gotovi poslovi
+                            </li>
+                            <li className="nav-link" style={{color: 'rgba(0,0,0,.5)'}}>
+                                Zakazani poslovi
+                            </li>
+                        </nav>
+                        <hr/>
+                        <JobList jobs={this.props.jobs}/>
                     </div>
                 </div>
             </div>
@@ -21,7 +33,7 @@ class Main extends React.Component{
 }
 
 const mapStateToProps = state => ({
-    articles: state.articles
+    jobs: state.jobs
 });
 
 const mapDispatchToProps = dispatch => ({

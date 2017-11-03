@@ -1,5 +1,5 @@
 import React from "react";
-
+import Job from "./Job";
 
 class JobList extends React.Component{
     render(){
@@ -20,12 +20,13 @@ class JobList extends React.Component{
         }
 
         return (
+            this.props.jobs.map(job => {
+                console.log(job);
+                return (
+                    <Job job={job} key={job.data.uniqueSlug}/>
+                )
+            })
 
-            <div className="card my-2">
-                <div className="card-body">
-                    <div className="card-title">Test</div>
-                </div>
-            </div>
         );
     }
 }

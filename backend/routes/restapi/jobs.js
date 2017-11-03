@@ -56,7 +56,7 @@ router.post('/', auth.required, function(req,res,next){
 
         var slugProperty = slug(req.body.job.title) + '-' + (Math.random() * Math.pow(36, 6) | 0).toString(36);
 
-        agenda.schedule(scheduleProperty,'new job', {author: user, uniqueSlug: slugProperty});
+        agenda.schedule(scheduleProperty,'new job', {author: user, uniqueSlug: slugProperty, title: req.body.job.title, schedule: scheduleProperty});
 
 
         //postavke za slack interaciju
@@ -116,7 +116,7 @@ router.get('/:username', auth.required, function(req,res,next){
 
 //ruta za fetchanje svih poslova
 
-router.get('/', auth.required, function(req,res,next){
+router.get('/', auth.optional, function(req,res,next){
     agenda.jobs({}, function(err, jobs){
         return res.json({
             jobs: jobs

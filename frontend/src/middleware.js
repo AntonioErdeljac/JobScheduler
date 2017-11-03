@@ -1,4 +1,4 @@
-const promiseMiddleware = store => next => action=> {
+const promiseMiddleware = store => next => action => {
     if(isPromise(action.payload)){
         action.payload.then(
             res => {
@@ -10,6 +10,14 @@ const promiseMiddleware = store => next => action=> {
                 action.payload = error.response.body;
                 store.dispatch(error);
             }
-        )
+        );
+        return;
     }
+    next(action);
 };
+
+function isPromise(v){
+    return v && typeof v.then === 'function';
+}
+
+export {promiseMiddleware};
