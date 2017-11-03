@@ -15,9 +15,9 @@ const API_ROOT = '//localhost:8000/restapi';
 
 const requests = {
     get: url =>
-        superagent.get(`${API_ROOT}${url}`).then(getBody),
+        superagent.get(`${API_ROOT}${url}`).use(tokenPlugin).then(getBody),
     post: (url, body) =>
-        superagent.post(`${API_ROOT}${url}`, body).then(getBody)
+        superagent.post(`${API_ROOT}${url}`, body).use(tokenPlugin).then(getBody)
 };
 
 const Jobs = {
@@ -27,10 +27,26 @@ const Jobs = {
 
 const Auth = {
     login: (email, password) =>
-        requests.post('/users/login', {user: {email, password}})
+        requests.post('/users/login', {user: {email, password}}),
+    current: () =>
+        requests.get(`/user`)
+};
+
+//brza funkcija setToken spremi token jos uz window.localStorage (to middleware radi)
+// u agent propertie
+
+let token = null;
+
+
+
+let tokenPlugin = req => {
+    if(token){
+        req.set('authorization', `Token ${token}`);
+    }
 };
 
 export default {
     Jobs,
-    Auth
+    Auth,
+    setToken: _token => {token = _token}
 };

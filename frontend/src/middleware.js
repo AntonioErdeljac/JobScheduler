@@ -1,5 +1,6 @@
 //stvaram custom middleware koji ovisno o responsu ili erroru stavlja vrijednosti u action.payload
 //action.payload kasnije zovemo u svakom reduceru koji fetcha nesto tipa (action.payload.jobs)
+import agent from "./agent";
 
 const promiseMiddleware = store => next => action => {
     if(isPromise(action.payload)){
@@ -25,4 +26,17 @@ function isPromise(v){
     return v && typeof v.then === 'function';
 }
 
-export {promiseMiddleware};
+// stvaranje middlewarea koji postavlja token u localstorage, to sluzi da se korisnik ne mora
+// svaki put loginati vec zapamti odnosno spremi jednom kad se logina (token sam po sebi expira nakon 60 dana u backendu)
+
+const userStatusMiddleware = store => next => action => {
+    if(action.type === 'LOGIN' || action.type === 'REGISTER'){
+        if(!action.error){
+            window.localStorage.setItem('jwt', action.payload.user.token);
+            agent.setToken(action.payload.user.token);
+        }
+    }
+    next(action);
+};
+
+export {promiseMiddleware, userStatusMiddleware};

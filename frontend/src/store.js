@@ -1,5 +1,5 @@
 import {createStore, applyMiddleware, combineReducers} from "redux";
-import {promiseMiddleware} from "./middleware";
+import {promiseMiddleware, userStatusMiddleware} from "./middleware";
 
 //store kao zasebna datoteka radi preglednosti, spaja sve reducere, primjenjuje Middlewareove
 
@@ -13,6 +13,6 @@ const reducer = combineReducers({
     common
 });
 
-const store = createStore(reducer, applyMiddleware(promiseMiddleware));
+const store = createStore(reducer, applyMiddleware(promiseMiddleware, userStatusMiddleware));
 
 export default store;
