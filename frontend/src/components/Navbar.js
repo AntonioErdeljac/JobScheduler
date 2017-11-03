@@ -1,16 +1,17 @@
 import React from "react";
+import {Link} from "react-router-dom";
 
 class Navbar extends React.Component{
     render(){
         return (
             <nav className="navbar navbar-expand-lg">
-                <a href="" className="navbar-brand">
+                <Link to="/" className="navbar-brand">
                     <i className="fa fa-tasks mx-3"></i>JobScheduler
-                </a>
+                </Link>
                 <ul className="navbar-nav ml-auto">
-                    <li className="nav-item nav-button mx-3">
+                    <Link to="/login" className="nav-item nav-button mx-3">
                         Prijava
-                    </li>
+                    </Link>
                 </ul>
                 <ul className="navbar-nav">
                     <li className="nav-item nav-button mx-3">

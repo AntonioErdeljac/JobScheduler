@@ -33,12 +33,12 @@ class Main extends React.Component{
 }
 
 const mapStateToProps = state => ({
-    jobs: state.jobs
+    jobs: state.jobs.jobs
 });
 
 const mapDispatchToProps = dispatch => ({
     onLoad: payload =>
-        dispatch({type: 'MAIN_PAGE_LOADED', payload})
+        dispatch({type: 'LOAD_COMPLETED_JOBS', payload})
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

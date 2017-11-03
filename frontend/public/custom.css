@@ -12,12 +12,13 @@ body,html {
 }
 
 .nav-button{
-    border-radius: 5px;
+    border-radius: 3px;
     border-style: none;
+    background-color: #2d89e5;
+    color: #fff;
     padding: 10px;
     padding-left: 15px;
     padding-right: 15px;
-    box-shadow: 0 0 5px 0 rgba(0,0,0,.1);
 }
 
 .active{

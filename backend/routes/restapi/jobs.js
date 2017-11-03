@@ -56,7 +56,7 @@ router.post('/', auth.required, function(req,res,next){
 
         var slugProperty = slug(req.body.job.title) + '-' + (Math.random() * Math.pow(36, 6) | 0).toString(36);
 
-        agenda.schedule(scheduleProperty,'new job', {author: user, uniqueSlug: slugProperty, title: req.body.job.title, schedule: scheduleProperty});
+        agenda.schedule(scheduleProperty,'new job', {author: user.toProfileJSON(), uniqueSlug: slugProperty, title: req.body.job.title, schedule: scheduleProperty});
 
 
         //postavke za slack interaciju
@@ -98,6 +98,20 @@ router.post('/', auth.required, function(req,res,next){
 });
 
 
+//rute za fetchanje gotovih poslova
+
+router.get('/completed', auth.optional, function(req,res,next){
+    agenda.jobs({}, function(err, jobs){
+        return res.json({
+            jobs: jobs.map(function(job){
+                if(job.lastFinishedAt){
+                    return job;
+                }
+            })
+        })
+    })
+
+
 // ruta za fetchanje poslova ovisno o autoru
 
 router.get('/:username', auth.required, function(req,res,next){
@@ -110,9 +124,11 @@ router.get('/:username', auth.required, function(req,res,next){
                 }
             })
         })
-    }).catch(next);
+    })
 });
 
+
+});
 
 //ruta za fetchanje svih poslova
 
@@ -149,8 +165,6 @@ router.delete('/:slug', auth.required, function(req,res,next){
     }).catch(next);
 });
 
-router.get('/sendmessage', auth.required, function(req,res,next){
-});
 
 
 module.exports = router;
