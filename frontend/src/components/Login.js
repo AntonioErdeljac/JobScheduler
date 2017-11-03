@@ -1,6 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import agent from "../agent";
+import Errors from "./Errors";
 
 //login komponenta aktivna pod /login rutom, upravljana auth reducerom (email & password values)
 
@@ -25,13 +26,14 @@ class Login extends React.Component{
                             <br/>
                             <h2>Prijava</h2>
                             <hr/>
+                            <Errors errors={this.props.errors}/>
                             <form onSubmit={this.submitForm(email, password)}>
                                 <fieldset>
                                     <fieldset className="form-group">
                                         <input value={email} onChange={this.changeEmail} placeholder="Email" type="text" className="form-control form-control-lg" />
                                     </fieldset>
                                     <fieldset className="form-group">
-                                        <input value={password} onChange={this.changePassword} placeholder="Lozinka" type="text" className="form-control form-control-lg" />
+                                        <input type="password" value={password} onChange={this.changePassword} placeholder="Lozinka"  className="form-control form-control-lg" />
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <button disabled={this.props.inProgress} type="submit" className="btn btn-primary">

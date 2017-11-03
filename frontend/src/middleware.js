@@ -10,6 +10,7 @@ const promiseMiddleware = store => next => action => {
                 store.dispatch(action);
             },
             error => {
+                console.log(error, 'UHVATIO SAM ERROR');
                 action.error = true;
                 action.payload = error.response.body;
                 store.dispatch(action);

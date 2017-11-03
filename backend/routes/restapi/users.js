@@ -40,11 +40,11 @@ router.post('/users', function(req,res,next){
 
 router.post('/users/login', function(req,res,next){
     if(!req.body.user.email){
-        return res.status(422).json({errors: {email: 'je neispravan'}});
+        return res.status(422).json({errors: {email: 'ne smije biti prazan'}});
     }
 
     if(!req.body.user.password){
-        return res.status(422).json({errors: {password: 'je netočna'}});
+        return res.status(422).json({errors: {password: 'je netočan'}});
     }
 
     passport.authenticate('local', {session: false}, function(err, user, info){
@@ -79,7 +79,7 @@ router.get('/user', auth.required, function(req,res,next){
 
 router.use(function(err,req,res,next){
     if(err.name === 'ValidationError'){
-        return res.json({
+        return res.status(422).json({
             errors: Object.keys(err.errors).reduce(function(errors, key){
                 errors[key] = err.errors[key].message;
 
