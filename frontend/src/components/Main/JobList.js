@@ -1,6 +1,8 @@
 import React from "react";
 import Job from "./Job";
 
+//joblist komponenta rendera jobove ako ih ima, dok ih dohvaca prikazuje loading, a ako nema prikazuje poruku da ih nema.
+
 class JobList extends React.Component{
     render(){
         if(!this.props.jobs){

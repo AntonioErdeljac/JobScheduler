@@ -1,6 +1,8 @@
 import React from "react";
 import {Link} from "react-router-dom";
 
+//navbar componenta uvijek je aktivna i vidljiva, različiti djelovi se aktiviraju ovisno o tome jeli korisnik loginiran ili ne
+
 class Navbar extends React.Component{
     render(){
         return (

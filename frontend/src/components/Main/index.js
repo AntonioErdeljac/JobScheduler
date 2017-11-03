@@ -3,6 +3,8 @@ import JobList from "./JobList";
 import agent from "../../agent";
 import {connect} from "react-redux";
 
+//Na componentDidMount fetchamo sve poslove
+
 class Main extends React.Component{
     componentWillMount(){
         this.props.onLoad(agent.Jobs.all());
@@ -31,6 +33,8 @@ class Main extends React.Component{
         );
     }
 }
+
+//redux mapstatetoprops & mapdispatchtoprops
 
 const mapStateToProps = state => ({
     jobs: state.jobs.jobs
