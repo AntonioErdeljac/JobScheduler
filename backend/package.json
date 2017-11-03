@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@slack/client": "^3.14.1",
     "agenda": "^1.0.3",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
