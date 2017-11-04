@@ -1,3 +1,5 @@
+//reducer slican kao auth samo jednostavniji
+
 export default (state={}, action) => {
     switch(action.type){
         case 'UPDATE_FIELD_EDITOR':

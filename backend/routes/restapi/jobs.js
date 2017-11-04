@@ -59,11 +59,12 @@ agenda.define('new job', function(job, done){
 });
 
 
+// event koji ceka poruku (naredbu)
 
 rtm.start();
 
 rtm.on(RTM_EVENTS.MESSAGE, function handleRtmMessage(message) {
-    console.log(message.text.split(' ')[0], 'PORUKA SA SLACKA');
+    console.log(message.text.split(' ')[2], 'PORUKA SA SLACKA');
     if (message.text.split(' ')[0] === "jobby") {
         if(message.text.split(' ')[1] === 'izbriši') {
             var channel = "#general";
@@ -115,6 +116,7 @@ router.post('/', auth.required, function(req,res,next) {
         var scheduleProperty = req.body.job.schedule;
 
         var slugProperty = slug(req.body.job.title) + '-' + (Math.random() * Math.pow(36, 6) | 0).toString(36);
+
 
         agenda.schedule(scheduleProperty, 'new job', {
             author: user.toProfileJSON(),

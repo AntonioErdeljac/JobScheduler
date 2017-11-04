@@ -1,3 +1,6 @@
+// reducer za opce stvari kao trenutni loginirani korisnik, token,
+// te ovdje se odlucuje gdje ce se router premjestiti ovisno koja je akcija pozvana
+
 export default (state={}, action) => {
     switch(action.type){
         case 'LOGIN':

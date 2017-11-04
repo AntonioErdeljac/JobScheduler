@@ -1,3 +1,6 @@
+//reducer za jobs, sve se moglo staviti zapravo pod jedan case, ali radi preglednosti
+// i buduceg developmenta je lakse da se svaki drzi odvojeno
+
 export default (state={}, action) => {
     switch(action.type){
         case 'MAIN_PAGE_LOADED':

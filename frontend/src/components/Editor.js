@@ -3,6 +3,8 @@ import {connect} from "react-redux";
 import agent from "../agent";
 import Errors from "./Errors";
 
+//editor radi na isti nacin kao i Login i Register komponente
+
 class Editor extends React.Component{
     constructor(props){
         super(props);

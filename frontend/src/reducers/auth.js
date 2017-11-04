@@ -1,3 +1,5 @@
+// ovo je reducer za Login I Register values i naredbe
+
 export default (state={}, action) => {
     switch(action.type){
         case 'UPDATE_FIELD_AUTH':
