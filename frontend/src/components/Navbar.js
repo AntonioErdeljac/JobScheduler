@@ -24,7 +24,7 @@ const LoggedIn = props => {
             <ul className="navbar-nav ml-auto" style={{marginTop: '10px'}}>
                 <li className="nav-item my-1">
                     <Link to="/editor" className="nav-button">
-                        <i className="fa fa-plus"></i>&nbsp;New Job
+                        <i className="fa fa-plus"></i>&nbsp;Novi Posao
                     </Link>
                 </li>
                 <li className="nav-item" style={{textDecoration: 'none'}}>
@@ -32,7 +32,7 @@ const LoggedIn = props => {
                       <span  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{color: '#2d89e5', fontSize:'20px', textDecoration: 'none'}}>{props.currentUser.username} <i className="fa fa-user-circle"></i>&nbsp;<i className="fa fa-caret-down"></i></span>
 
                         <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                            <a onClick={props.onClickLogout} className="dropdown-item" href="#" style={{color: '#D91E18'}}><i className="fa fa-sign-out"></i>&nbsp;  Logout</a>
+                            <a onClick={props.onClickLogout} className="dropdown-item" href="#" style={{color: '#D91E18'}}><i className="fa fa-sign-out"></i>&nbsp;  Odjava</a>
                         </div>
                     </div>
                 </li>

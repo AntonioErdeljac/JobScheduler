@@ -41,8 +41,9 @@ class Editor extends React.Component{
                                             Spremi
                                         </button>
                                     </fieldset>
-                                    <i className="text-muted"><i className="fa fa-slack"></i>&nbsp;Slack kanal biti će obaviješten o novom poslu
-                                        <br/>(Novi posao: Ime posla, autor: ime...)</i>
+                                    <i className="text-muted"><i className="fa fa-slack"></i>&nbsp;Slack kanal biti će obaviješten o <b>novom</b> poslu,
+                                        <br/>isto kao i o <b>završetku</b> posla</i>
+
 
                                 </fieldset>
                             </form>
