@@ -2,20 +2,13 @@
 
 Simple Agenda Job Scheduler app with Slack integration created using React.js, Node.js & Agenda.js
 
-## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
 ### Prerequisites
 
 Make sure you have these installed on your machine
 
-```
-node
-npm
-mongo
-
-```
+* [Node.js](https://nodejs.org/en/download/)
+* [MongoDB](https://www.mongodb.com)
+**npm** This comes with Node.js, but make sure you check if you have it anyway
 
 ### Installing packages
 
