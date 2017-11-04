@@ -15,13 +15,14 @@ Make sure you have these installed on your machine
 Install backend packages
 
 ```
-cd backend
+cd backend/
 sudo npm install --save
 ```
 
 Install frontend packages
 
 ```
+cd frontend/
 sudo npm install --save
 ```
 
