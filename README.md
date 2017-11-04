@@ -8,7 +8,7 @@ Make sure you have these installed on your machine
 
 * [Node.js](https://nodejs.org/en/download/)
 * [MongoDB](https://www.mongodb.com)
-**npm** This comes with Node.js, but make sure you check if you have it anyway
+* **npm** This comes with Node.js, but make sure you check if you have it anyway
 
 ### Installing packages
 
