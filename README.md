@@ -26,6 +26,8 @@ cd frontend/
 sudo npm install --save
 ```
 
+### Running the app
+
 To run the app (dev. mode)
 
 ```
@@ -34,6 +36,17 @@ sudo SLACK_BOT_TOKEN=your_bot_token_here node app.js
 
 cd frontend
 sudo npm start
+```
+
+### Slack commands
+**Make sure you have created a Slack Bot first & have added it to #general in your room**
+
+## Available commands:
+
+Delete job
+
+```
+jobby izbriši job_slug
 ```
 
 

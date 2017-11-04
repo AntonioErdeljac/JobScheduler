@@ -7,6 +7,11 @@ var slug = require('slug');
 
 //postavke za slack integraciju
 
+var RtmClient = require('@slack/client').RtmClient;
+var RTM_EVENTS = require('@slack/client').RTM_EVENTS;
+var bot_token = process.env.SLACK_BOT_TOKEN || '';
+
+var rtm = new RtmClient(bot_token);
 
 
 
@@ -52,6 +57,34 @@ agenda.define('new job', function(job, done){
         done()
     }, 500);
 });
+
+
+
+rtm.start();
+
+rtm.on(RTM_EVENTS.MESSAGE, function handleRtmMessage(message) {
+    console.log(message.text.split(' ')[0], 'PORUKA SA SLACKA');
+    if (message.text.split(' ')[0] === "jobby") {
+        if(message.text.split(' ')[1] === 'izbriši') {
+            var channel = "#general";
+            rtm.sendMessage("Brišem *"+message.text.split(' ')[2]+'*' , message.channel);
+
+
+
+
+            agenda.jobs({}, function(err, jobs){
+                jobs.map(function(job){
+                    if(job.attrs.data.uniqueSlug === message.text.split(' ')[2]){
+                        job.remove();
+                    }
+                })
+            })
+
+
+        }
+    }
+});
+
 
 
 // ruta za stvaranje poslova, prima schedule i title joba.
