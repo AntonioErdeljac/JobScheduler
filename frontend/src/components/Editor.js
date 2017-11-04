@@ -60,7 +60,7 @@ const mapDispatchToProps = dispatch => ({
     onChangeSchedule: value =>
         dispatch({type: 'UPDATE_FIELD_EDITOR', key: 'schedule', value}),
     onSubmitForm: (title, schedule) =>
-        dispatch({type: 'SAVE_JOB', payload: agent.Jobs.new(title, schedule)})
+        dispatch({type: 'SAVE_JOB', payload: agent.Jobs.add(title, schedule)})
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Editor);

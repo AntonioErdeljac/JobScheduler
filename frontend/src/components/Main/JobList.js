@@ -25,7 +25,7 @@ class JobList extends React.Component{
             this.props.jobs.map(job => {
                 console.log(job);
                 return (
-                    <Job job={job} key={job.data.uniqueSlug}/>
+                    <Job job={job} currentUser={this.props.currentUser} key={job.data.uniqueSlug}/>
                 )
             })
 

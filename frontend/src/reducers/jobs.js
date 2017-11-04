@@ -24,6 +24,11 @@ export default (state={}, action) => {
             return {
                 ...state,
                 jobs: action.payload.jobs
+            };
+        case 'DELETE_JOB':
+            return {
+                ...state,
+                jobs: state.jobs.filter(job => job.uniqueSlug !== action.uniqueSlug)
             }
     }
     return state;

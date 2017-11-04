@@ -7,13 +7,6 @@ var slug = require('slug');
 
 //postavke za slack integraciju
 
-var RtmClient = require('@slack/client').RtmClient;
-var CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS;
-
-var bot_token = 'xoxb-266397551667-dIZfZ4KUmeRvxUfmhPiwFfg6';
-
-var rtm = new RtmClient(bot_token);
-
 
 
 
@@ -32,7 +25,30 @@ agenda.on('ready', function(){
 
 agenda.define('new job', function(job, done){
     setTimeout(function(){
-        console.log('simulacija nekog procesa');
+        var RtmClient = require('@slack/client').RtmClient;
+        var CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS;
+        var bot_token = process.env.SLACK_BOT_TOKEN || '';
+
+        var rtm = new RtmClient(bot_token);
+
+        let channel;
+
+        rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, function (rtmStartData) {
+            for (const c of rtmStartData.channels) {
+                if (c.is_member && c.name === 'general') {
+                    channel = c.id
+                }
+            }
+        });
+
+        //slanje poruke na slack, koristio bio `${nekaVrijednost}`, ali nije postavljen ES6
+        //radi to svejedno ali mi smeta sto se crveni u WebStormu
+
+        rtm.on(CLIENT_EVENTS.RTM.RTM_CONNECTION_OPENED, function () {
+            rtm.sendMessage("*Posao dovršen:* " + job.attrs.data.title + ', *Vrjieme*: ' + job.attrs.lastRunAt + ', *Autor*: ' + job.attrs.data.author.username + ' *Slug*: ' + job.attrs.data.uniqueSlug, channel);
+        });
+
+        rtm.start();
         done()
     }, 500);
 });
@@ -46,13 +62,22 @@ router.post('/', auth.required, function(req,res,next) {
             return res.sendStatus(401);
         }
 
-        if (typeof req.body.job.schedule === 'undefined') {
-            return res.status(422).json({errors: {schedule: 'je obavezno'}})
+        if (typeof req.body.job.title === 'undefined') {
+            return res.status(422).json({errors: {naslov: 'je obavezan'}})
         }
 
-        if (typeof req.body.job.title === 'undefined') {
-            return res.status(422).json({errors: {title: 'je obavezan'}})
+        if (typeof req.body.job.schedule === 'undefined') {
+            return res.status(422).json({errors: {vrijeme: 'je obavezno'}})
         }
+
+        if(req.body.job.schedule.split(' ')[0] !== 'in'){
+            console.log(req.body.job.schedule.split(' ')[0], 'EVO STAVIDI OVAJ KOJI PRATI')
+            return res.status(422).json({errors: {vrijeme: 'mora koristiti pravilan oblik'}})
+        }
+
+        console.log(req.body.job.schedule.split(' ')[0], 'EVO TI SCHEDULE');
+
+
 
         var scheduleProperty = req.body.job.schedule;
 
@@ -68,7 +93,15 @@ router.post('/', auth.required, function(req,res,next) {
 
         //postavke za slack interaciju
 
-        var channel;
+
+
+        var RtmClient = require('@slack/client').RtmClient;
+        var CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS;
+        var bot_token = process.env.SLACK_BOT_TOKEN || '';
+
+        var rtm = new RtmClient(bot_token);
+
+        let channel;
 
         rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, function (rtmStartData) {
             for (const c of rtmStartData.channels) {
@@ -154,6 +187,29 @@ router.get('/myjobs', auth.required, function(req,res,next) {
 });
 
 
+// ruta za brisanje poslova, (provjerava jeli zahtjevatelj brisanja autor posla, te dali postoji posao (403 ili 404))
+
+router.delete('/:slug', auth.required, function(req,res,next){
+    User.findById(req.payload.id).then(function(user){
+        agenda.jobs({}, function(err, jobs){
+            if(err) return next(err);
+
+            jobs.map(function(job){
+                if(job.attrs.data.uniqueSlug === req.params.slug){
+                    if(job.attrs.data.author.username === user.username){
+                        job.remove(function(){
+                            return res.sendStatus(204);
+                        })
+                    } else {
+                        return res.sendStatus(403);
+                    }
+                }
+            })
+        })
+    })
+});
+
+
 // ruta za fetchanje poslova ovisno o autoru
 
 router.get('/:username', auth.required, function(req,res,next){
@@ -183,28 +239,6 @@ router.get('/', auth.optional, function(req,res,next){
 
 
 
-// ruta za brisanje poslova, (provjerava jeli zahtjevatelj brisanja autor posla, te dali postoji posao (403 ili 404))
-
-router.delete('/:slug', auth.required, function(req,res,next){
-    User.findById(req.payload.id).then(function(user){
-        agenda.jobs({}, function(err, jobs){
-            if(err) return next(err);
-
-            jobs.map(function(job){
-                if(job.attrs.data.uniqueSlug === req.params.slug){
-                    if(job.attrs.data.author.username === user.username){
-                        job.remove();
-                        return res.sendStatus(204);
-                    } else {
-                        return res.sendStatus(403);
-                    }
-                } else {
-                    return res.sendStatus(404);
-                }
-            })
-        })
-    }).catch(next);
-});
 
 
 

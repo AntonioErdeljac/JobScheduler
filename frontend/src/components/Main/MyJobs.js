@@ -33,7 +33,7 @@ class MyJobs extends React.Component{
                     <div className="col-8 offset-2">
                         {this.tabsRender()}
                         <hr/>
-                        <JobList jobs={this.props.jobs}/>
+                        <JobList currentUser={this.props.currentUser} jobs={this.props.jobs}/>
                     </div>
                 </div>
             </div>
@@ -42,7 +42,8 @@ class MyJobs extends React.Component{
 }
 
 const mapStateToProps = state => ({
-    jobs: state.jobs.jobs
+    jobs: state.jobs.jobs,
+    currentUser: state.common.currentUser
 });
 
 const mapDispatchToProps = dispatch => ({

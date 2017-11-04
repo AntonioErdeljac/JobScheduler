@@ -34,7 +34,7 @@ class ScheduledJobs extends React.Component{
                     <div className="col-8 offset-2">
                         {this.tabsRender()}
                         <hr/>
-                        <JobList jobs={this.props.jobs}/>
+                        <JobList currentUser={this.props.currentUser} jobs={this.props.jobs}/>
                     </div>
                 </div>
             </div>

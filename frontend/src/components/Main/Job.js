@@ -1,4 +1,6 @@
 import React from "react";
+import {connect} from "react-redux";
+import agent from "../../agent";
 
 //komponenta koja se rendera u jobs.map, ovisno o statusu joba mjenja boje i poruke
 
@@ -16,11 +18,16 @@ class Job extends React.Component{
                         <a href="https://jobscheduler.slack.com/messages/C7VGE5UT1/" target="_blank">#general</a></p></div>
                 </div>
                 <div className="card-footer">
-                    <p style={!job.lastRunAt ? {color: '#D91E18'} : {color: '#1fcf7c'}}><b>Status:</b> {!job.lastRunAt ? 'Zakazano' : 'Dovršeno'}</p>
+                    <p style={!job.lastRunAt ? {color: '#D91E18'} : {color: '#1fcf7c'}}><b>Status:</b> {!job.lastRunAt ? 'Zakazano' : 'Dovršeno'}{this.props.currentUser && this.props.currentUser.username === job.data.author.username ? <span onClick={() => this.props.onClickDelete(job.data.uniqueSlug)} className="float-right" style={{color: '#D91E18', cursor:'pointer'}}><i className="fa fa-trash-o fa-2x"></i></span> : null}</p>
                 </div>
             </div>
         )
     }
 }
 
-export default Job;
+const mapDispatchToProps = dispatch => ({
+    onClickDelete: (uniqueSlug) =>
+        dispatch({type: 'DELETE_JOB', payload: agent.Jobs.delete(uniqueSlug), uniqueSlug})
+});
+
+export default connect(null, mapDispatchToProps)(Job);

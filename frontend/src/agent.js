@@ -17,7 +17,9 @@ const requests = {
     get: url =>
         superagent.get(`${API_ROOT}${url}`).use(tokenPlugin).then(getBody),
     post: (url, body) =>
-        superagent.post(`${API_ROOT}${url}`, body).use(tokenPlugin).then(getBody)
+        superagent.post(`${API_ROOT}${url}`, body).use(tokenPlugin).then(getBody),
+    del: url =>
+        superagent.del(`${API_ROOT}${url}`).use(tokenPlugin).then(getBody)
 };
 
 const Jobs = {
@@ -29,8 +31,10 @@ const Jobs = {
         requests.get(`/jobs/scheduled`),
     myJobs: (username) =>
         requests.get(`/jobs/myjobs`),
-    new: (title, schedule) =>
-        requests.post(`/jobs`, {job: {title, schedule}})
+    add: (title, schedule) =>
+        requests.post(`/jobs`, {job: {title, schedule}}),
+    delete: (uniqueSlug) =>
+        requests.del(`/jobs/${encodeURIComponent(uniqueSlug)}`)
 };
 
 const Auth = {
