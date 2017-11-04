@@ -6,6 +6,8 @@ export default (state={}, action) => {
                 ...state,
                 [action.key]: action.value
             };
+        case 'EDITOR_PAGE_UNLOADED':
+            return {};
         case 'SAVE_JOB':
             return {
                 ...state,

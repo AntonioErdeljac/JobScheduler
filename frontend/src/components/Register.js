@@ -17,6 +17,11 @@ class Register extends React.Component{
             this.props.onSubmitForm(username, email, password);
         }
     }
+
+    componentWillUnmount(){
+        this.props.onUnload();
+    }
+
     render(){
         const {username, email, password} = this.props;
         return (
@@ -66,7 +71,9 @@ const mapDispatchToProps = dispatch => ({
     onChangePassword: value =>
         dispatch({type: 'UPDATE_FIELD_AUTH', key: 'password', value}),
     onSubmitForm: (username, email, password) =>
-        dispatch({type: 'REGISTER', payload: agent.Auth.register(username, email, password)})
+        dispatch({type: 'REGISTER', payload: agent.Auth.register(username, email, password)}),
+    onUnload: () =>
+        dispatch({type: 'REGISTER_PAGE_UNLOADED'})
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

@@ -14,6 +14,10 @@ class Editor extends React.Component{
             this.props.onSubmitForm(title, schedule);
         }
     }
+
+    componentWillUnmount(){
+        this.props.onUnload();
+    }
     render(){
         const {title, schedule} = this.props;
         return (
@@ -60,7 +64,9 @@ const mapDispatchToProps = dispatch => ({
     onChangeSchedule: value =>
         dispatch({type: 'UPDATE_FIELD_EDITOR', key: 'schedule', value}),
     onSubmitForm: (title, schedule) =>
-        dispatch({type: 'SAVE_JOB', payload: agent.Jobs.add(title, schedule)})
+        dispatch({type: 'SAVE_JOB', payload: agent.Jobs.add(title, schedule)}),
+    onUnload: () =>
+        dispatch({type: 'EDITOR_PAGE_UNLOADED'})
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Editor);

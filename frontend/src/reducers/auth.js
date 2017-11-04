@@ -5,6 +5,9 @@ export default (state={}, action) => {
                 ...state,
                 [action.key]: action.value
             };
+        case 'REGISTER_PAGE_UNLOADED':
+        case 'LOGIN_PAGE_UNLOADED':
+            return {};
         case 'LOGIN':
         case 'REGISTER':
             return {
