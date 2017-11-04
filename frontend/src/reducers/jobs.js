@@ -19,16 +19,17 @@ export default (state={}, action) => {
             return {
                 ...state,
                 jobs: action.payload.jobs
-            }
+            };
         case 'LOAD_MY_JOBS':
             return {
                 ...state,
                 jobs: action.payload.jobs
             };
         case 'DELETE_JOB':
+            console.log('deleting job', action.uniqueSlug);
             return {
                 ...state,
-                jobs: state.jobs.filter(job => job.uniqueSlug !== action.uniqueSlug)
+                jobs: state.jobs.filter(job => job.data.uniqueSlug !== action.uniqueSlug)
             }
     }
     return state;

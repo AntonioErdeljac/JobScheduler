@@ -191,6 +191,7 @@ router.get('/myjobs', auth.required, function(req,res,next) {
 
 router.delete('/:slug', auth.required, function(req,res,next){
     User.findById(req.payload.id).then(function(user){
+        if(!user){return res.sendStatus(401);}
         agenda.jobs({}, function(err, jobs){
             if(err) return next(err);
 
@@ -198,6 +199,35 @@ router.delete('/:slug', auth.required, function(req,res,next){
                 if(job.attrs.data.uniqueSlug === req.params.slug){
                     if(job.attrs.data.author.username === user.username){
                         job.remove(function(){
+
+
+                            var RtmClient = require('@slack/client').RtmClient;
+                            var CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS;
+                            var bot_token = process.env.SLACK_BOT_TOKEN || '';
+
+                            var rtm = new RtmClient(bot_token);
+
+                            let channel;
+
+                            rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, function (rtmStartData) {
+                                for (const c of rtmStartData.channels) {
+                                    if (c.is_member && c.name === 'general') {
+                                        channel = c.id
+                                    }
+                                }
+                            });
+
+                            //slanje poruke na slack, koristio bio `${nekaVrijednost}`, ali nije postavljen ES6
+                            //radi to svejedno ali mi smeta sto se crveni u WebStormu
+
+                            rtm.on(CLIENT_EVENTS.RTM.RTM_CONNECTION_OPENED, function () {
+                                rtm.sendMessage("*Posao izbrisan:* " + job.attrs.data.title + ', *Vrjieme*: ' + new Date().toLocaleTimeString() + ', *Izbrisao*: ' + user.username + ' *Slug*: ' + job.attrs.data.uniqueSlug, channel);
+                            });
+
+                            rtm.start();
+
+
+
                             return res.sendStatus(204);
                         })
                     } else {

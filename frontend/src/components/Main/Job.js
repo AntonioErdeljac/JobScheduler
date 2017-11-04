@@ -27,7 +27,7 @@ class Job extends React.Component{
 
 const mapDispatchToProps = dispatch => ({
     onClickDelete: (uniqueSlug) =>
-        dispatch({type: 'DELETE_JOB', payload: agent.Jobs.delete(uniqueSlug), uniqueSlug})
+        dispatch({type: 'DELETE_JOB', payload: agent.Jobs.del(uniqueSlug), uniqueSlug})
 });
 
 export default connect(null, mapDispatchToProps)(Job);

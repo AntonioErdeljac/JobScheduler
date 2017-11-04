@@ -33,7 +33,7 @@ const Jobs = {
         requests.get(`/jobs/myjobs`),
     add: (title, schedule) =>
         requests.post(`/jobs`, {job: {title, schedule}}),
-    delete: (uniqueSlug) =>
+    del: (uniqueSlug) =>
         requests.del(`/jobs/${encodeURIComponent(uniqueSlug)}`)
 };
 
