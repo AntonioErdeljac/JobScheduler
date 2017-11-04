@@ -15,10 +15,15 @@ body,html {
     border-radius: 3px;
     border-style: none;
     background-color: #2d89e5;
-    color: #fff;
     padding: 10px;
     padding-left: 15px;
     padding-right: 15px;
+    text-decoration: none !important;
+    color: #fff !important;
+}
+
+.nav-item{
+    text-decoration: none !important;
 }
 
 .active{
