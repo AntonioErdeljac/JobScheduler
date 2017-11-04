@@ -41,13 +41,33 @@ sudo npm start
 ### Slack commands
 **Make sure you have created a Slack Bot first & have added it to #general in your room**
 
-## Available commands:
+#### Available commands:
 
 Delete job
 
 ```
 jobby izbriši job_slug
 ```
+
+#### Other Slack functions:
+
+Automatic message on **new job**
+
+```
+*Novi posao:* Posao #1, *Vrjieme*: in 30 seconds, *Autor*: erda *Slug*: Posao-1-a5xgq7
+```
+
+Automatic message on job **completion**:
+
+```
+*Posao dovršen:* Posao #1, *Vrjieme*: Sat Nov 04 2017 16:29:41 GMT+0100 (CET), *Autor*: erda *Slug*: Posao-1-a5xgq7
+```
+
+Automatic message on job **deletion**:
+```
+*Posao izbrisan:* Posao #1, *Vrjieme*: 4:37:37 PM, *Izbrisao*: erda *Slug*: Posao-1-a5xgq7
+```
+
 
 
 ## Built With
