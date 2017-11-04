@@ -8,6 +8,11 @@ export default (state={}, action) => {
                 currentUser: action.error ? null : action.payload.user,
                 redirectTo: action.error ? null : '/'
             };
+        case 'SAVE_JOB':
+            return {
+                ...state,
+                redirectTo: action.error ? null : '/myjobs'
+            };
         case 'INITIAL_LOAD':
             console.log(action, 'INITIAL LOAD');
             return {

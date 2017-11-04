@@ -22,7 +22,15 @@ const requests = {
 
 const Jobs = {
     all: () =>
-        requests.get(`/jobs`)
+        requests.get(`/jobs`),
+    completed: () =>
+        requests.get(`/jobs/completed`),
+    scheduled: () =>
+        requests.get(`/jobs/scheduled`),
+    myJobs: (username) =>
+        requests.get(`/jobs/myjobs`),
+    new: (title, schedule) =>
+        requests.post(`/jobs`, {job: {title, schedule}})
 };
 
 const Auth = {

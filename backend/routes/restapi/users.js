@@ -10,7 +10,7 @@ var auth = require('../auth');
 router.post('/users', function(req,res,next){
     console.log('ovdje smo');
     if(!req.body.user.username){
-        return res.status(422).json({errors: {username: 'je obavezno'}});
+        return res.status(422).json({errors: {"korisničko ime": 'je obavezno'}});
     }
 
     if(!req.body.user.email){
@@ -18,7 +18,7 @@ router.post('/users', function(req,res,next){
     }
 
     if(!req.body.user.password){
-        return res.status(422).json({errors: {password: 'je obavezna'}});
+        return res.status(422).json({errors: {lozinka: 'je obavezna'}});
     }
 
     var user = new User();
@@ -44,7 +44,7 @@ router.post('/users/login', function(req,res,next){
     }
 
     if(!req.body.user.password){
-        return res.status(422).json({errors: {password: 'je netočan'}});
+        return res.status(422).json({errors: {lozinka: 'je netočna'}});
     }
 
     passport.authenticate('local', {session: false}, function(err, user, info){

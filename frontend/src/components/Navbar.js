@@ -23,7 +23,7 @@ const LoggedIn = props => {
         return (
             <ul className="navbar-nav ml-auto" style={{marginTop: '10px'}}>
                 <li className="nav-item my-1">
-                    <Link to="/" className="nav-button">
+                    <Link to="/editor" className="nav-button">
                         <i className="fa fa-plus"></i>&nbsp;New Job
                     </Link>
                 </li>
@@ -46,14 +46,7 @@ const LoggedOut = props => {
         return (
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item">
-                        <Link to="/login" className="nav-link nav-button mx-3">
-                            Prijava
-                        </Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link to="/register" className="nav-link nav-button mx-3">
-                            Registracija
-                        </Link>
+                        <Link to="/login">Prijavi se</Link> ili <Link to="/register">Registriraj</Link> za više opcija
                     </li>
                 </ul>
         );

@@ -10,7 +10,7 @@ var slug = require('slug');
 var RtmClient = require('@slack/client').RtmClient;
 var CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS;
 
-var bot_token = process.env.SLACK_BOT_TOKEN || 'xoxb-266397551667-uekxKPTL0INks9sWvzEPqOZt';
+var bot_token = 'xoxb-266397551667-dIZfZ4KUmeRvxUfmhPiwFfg6';
 
 var rtm = new RtmClient(bot_token);
 
@@ -40,15 +40,17 @@ agenda.define('new job', function(job, done){
 
 // ruta za stvaranje poslova, prima schedule i title joba.
 
-router.post('/', auth.required, function(req,res,next){
-    User.findById(req.payload.id).then(function(user){
-        if(!user){return res.sendStatus(401);}
+router.post('/', auth.required, function(req,res,next) {
+    User.findById(req.payload.id).then(function (user) {
+        if (!user) {
+            return res.sendStatus(401);
+        }
 
-        if(typeof req.body.job.schedule === 'undefined'){
+        if (typeof req.body.job.schedule === 'undefined') {
             return res.status(422).json({errors: {schedule: 'je obavezno'}})
         }
 
-        if(typeof req.body.job.title === 'undefined'){
+        if (typeof req.body.job.title === 'undefined') {
             return res.status(422).json({errors: {title: 'je obavezan'}})
         }
 
@@ -56,25 +58,31 @@ router.post('/', auth.required, function(req,res,next){
 
         var slugProperty = slug(req.body.job.title) + '-' + (Math.random() * Math.pow(36, 6) | 0).toString(36);
 
-        agenda.schedule(scheduleProperty,'new job', {author: user.toProfileJSON(), uniqueSlug: slugProperty, title: req.body.job.title, schedule: scheduleProperty});
+        agenda.schedule(scheduleProperty, 'new job', {
+            author: user.toProfileJSON(),
+            uniqueSlug: slugProperty,
+            title: req.body.job.title,
+            schedule: scheduleProperty
+        });
 
 
         //postavke za slack interaciju
 
-        var channel = 'general';
+        var channel;
 
-        rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, function(rtmStartData){
+        rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, function (rtmStartData) {
             for (const c of rtmStartData.channels) {
-            if (c.is_member && c.name ==='general') { channel = c.id }
-        }
-        console.log('Logged in as '+rtmStartData.self.name+' of team '+rtmStartData.team.name+', but not yet connected to a channel');
+                if (c.is_member && c.name === 'general') {
+                    channel = c.id
+                }
+            }
         });
 
         //slanje poruke na slack, koristio bio `${nekaVrijednost}`, ali nije postavljen ES6
         //radi to svejedno ali mi smeta sto se crveni u WebStormu
 
         rtm.on(CLIENT_EVENTS.RTM.RTM_CONNECTION_OPENED, function () {
-            rtm.sendMessage("*Novi posao:* "+req.body.job.title+', *Vrjieme*: '+req.body.job.schedule+', *Autor*: '+user.username+' *Slug*: '+slugProperty, channel);
+            rtm.sendMessage("*Novi posao:* " + req.body.job.title + ', *Vrjieme*: ' + req.body.job.schedule + ', *Autor*: ' + user.username + ' *Slug*: ' + slugProperty, channel);
         });
 
         rtm.start();
@@ -83,33 +91,67 @@ router.post('/', auth.required, function(req,res,next){
         //trazim specificni job sa uniqueSlug koji sam stvorio pri schedulrianju agende
         // zatim nadjem taj job i returnam ga kao json
 
-        agenda.jobs({}, function(err, jobs){
-            jobs.map(function(job){
-                if(job.attrs.data.uniqueSlug === slugProperty){
+        agenda.jobs({}, function (err, jobs) {
+            jobs.map(function (job) {
+                if (job.attrs.data.uniqueSlug === slugProperty) {
                     return res.json({
                         job: job
                     })
                 }
             })
         })
-
-
-    })
+    });
 });
 
 
 //rute za fetchanje gotovih poslova
 
-router.get('/completed', auth.optional, function(req,res,next){
-    agenda.jobs({}, function(err, jobs){
+router.get('/completed', auth.optional, function(req,res,next) {
+    agenda.jobs({}, function (err, jobs) {
         return res.json({
-            jobs: jobs.map(function(job){
-                if(job.lastFinishedAt){
+            jobs: jobs.filter(function (job) {
+                console.log('JOB', job.attrs.lastFinishedAt);
+                if (job.attrs.lastFinishedAt) {
                     return job;
                 }
             })
         })
+    });
+
+});
+
+
+//ruta za fetchanje zakazanih poslova
+
+router.get('/scheduled', auth.optional, function(req,res,next) {
+    agenda.jobs({}, function (err, jobs) {
+        return res.json({
+            jobs: jobs.filter(function (job) {
+                console.log('JOB', job.attrs.lastFinishedAt);
+                if (!job.attrs.lastFinishedAt) {
+                    return job;
+                }
+            })
+        })
+    });
+
+});
+
+
+router.get('/myjobs', auth.required, function(req,res,next) {
+    User.findById(req.payload.id).then(function(user){
+        agenda.jobs({}, function (err, jobs) {
+            return res.json({
+                jobs: jobs.filter(function(job){
+                    if(job.attrs.data.author.username === user.username){
+                        return job;
+                    }
+                })
+            })
+        });
     })
+
+});
 
 
 // ruta za fetchanje poslova ovisno o autoru
@@ -118,7 +160,7 @@ router.get('/:username', auth.required, function(req,res,next){
     agenda.jobs({}, function(err, jobs){
         if(err) return next(err);
         return res.json({
-            jobs: jobs.map(function(job){
+            jobs: jobs.filter(function(job){
                 if(job.attrs.data.author.username === req.params.username){
                     return job;
                 }
@@ -128,7 +170,6 @@ router.get('/:username', auth.required, function(req,res,next){
 });
 
 
-});
 
 //ruta za fetchanje svih poslova
 

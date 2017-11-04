@@ -13,7 +13,7 @@ class JobList extends React.Component{
             )
         }
 
-        if(this.props.jobs.length === 0){
+        if(this.props.jobs.length === 0 || this.props.jobs.length === 1 && this.props.jobs[0] === null){
             return (
                 <div className="row">
                     <p className="text-muted mx-auto">Trenutno nema poslova.</p>

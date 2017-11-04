@@ -1,41 +1,32 @@
 import React from "react";
-import JobList from "./JobList";
 import agent from "../../agent";
 import {connect} from "react-redux";
+import JobList from "./JobList";
 import {Link} from "react-router-dom";
 
-//Na componentDidMount fetchamo sve poslove
-
-class Main extends React.Component{
+class CompletedJobs extends React.Component{
     componentWillMount(){
-        this.props.onLoad(agent.Jobs.all());
+        this.props.onLoad(agent.Jobs.completed())
     }
-
-    componentWillUnmount(){
-        this.props.onUnload();
-    }
-
     tabsRender(){
         return (
             <nav className="nav my-3">
-                <Link to="/" className="nav-link active">
+                <Link to="/" className="nav-link"  style={{color: 'rgba(0,0,0,.5)'}}>
                     Svi poslovi
                 </Link>
-                <Link to="/completed" className="nav-link" style={{color: 'rgba(0,0,0,.5)'}}>
+                <Link to="/completed" className="nav-link active">
                     Gotovi poslovi
                 </Link>
                 <Link to="/scheduled" className="nav-link" style={{color: 'rgba(0,0,0,.5)'}}>
                     Zakazani poslovi
-                </Link>
-                {this.props.currentUser ?
+                </Link>{this.props.currentUser ?
                 <Link to="/myjobs" className="nav-link" style={{color: 'rgba(0,0,0,.5)'}}>
                     Moji poslovi
                 </Link>
-                    : null}
+                : null}
             </nav>
         );
     }
-
     render(){
         return(
             <div className="container my-3">
@@ -51,8 +42,6 @@ class Main extends React.Component{
     }
 }
 
-//redux mapstatetoprops & mapdispatchtoprops
-
 const mapStateToProps = state => ({
     jobs: state.jobs.jobs,
     currentUser: state.common.currentUser
@@ -60,10 +49,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     onLoad: payload =>
-        dispatch({type: 'MAIN_PAGE_LOADED', payload}),
-    onUnload: () =>
-        dispatch({type: 'MAIN_PAGE_UNLOADED'})
+        dispatch({type: 'LOAD_COMPLETED_JOBS', payload})
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
-export {Main as Main, mapStateToProps as mapStateToProps, mapDispatchToProps as mapDispatchToProps}
+export default connect(mapStateToProps, mapDispatchToProps)(CompletedJobs);

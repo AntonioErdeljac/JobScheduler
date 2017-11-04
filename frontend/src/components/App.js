@@ -3,6 +3,10 @@ import Navbar from "./Navbar";
 import Main from "./Main/index";
 import Register from "./Register";
 import Login from "./Login";
+import Editor from "./Editor";
+import CompletedJobs from "./Main/CompletedJobs";
+import ScheduledJobs from "./Main/ScheduledJobs";
+import MyJobs from "./Main/MyJobs";
 import {connect} from "react-redux";
 import {Switch, Route, withRouter} from "react-router-dom";
 import agent from "../agent";
@@ -34,6 +38,10 @@ class App extends Component {
             <Route path="/" exact component={Main} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
+            <Route path="/completed" component={CompletedJobs} />
+            <Route path="/scheduled" component={ScheduledJobs} />
+            <Route path="/myjobs" component={MyJobs} />
+            <Route path="/editor" component={Editor} />
           </Switch>
       </div>
     );
