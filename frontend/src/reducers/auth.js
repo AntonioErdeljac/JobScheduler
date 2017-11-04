@@ -6,6 +6,7 @@ export default (state={}, action) => {
                 [action.key]: action.value
             };
         case 'LOGIN':
+        case 'REGISTER':
             return {
                 ...state,
                 inProgress: false,

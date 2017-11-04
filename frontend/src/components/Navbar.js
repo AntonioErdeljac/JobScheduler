@@ -51,7 +51,7 @@ const LoggedOut = props => {
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link to="/login" className="nav-link nav-button mx-3">
+                        <Link to="/register" className="nav-link nav-button mx-3">
                             Registracija
                         </Link>
                     </li>

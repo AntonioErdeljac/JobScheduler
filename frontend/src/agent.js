@@ -29,7 +29,9 @@ const Auth = {
     login: (email, password) =>
         requests.post('/users/login', {user: {email, password}}),
     current: () =>
-        requests.get(`/user`)
+        requests.get(`/user`),
+    register: (username, email, password) =>
+        requests.post(`/users`, {user: {username, email, password}})
 };
 
 //brza funkcija setToken spremi token jos uz window.localStorage (to middleware radi)

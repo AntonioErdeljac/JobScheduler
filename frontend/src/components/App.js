@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Navbar from "./Navbar";
 import Main from "./Main/index";
+import Register from "./Register";
 import Login from "./Login";
 import {connect} from "react-redux";
 import {Switch, Route, withRouter} from "react-router-dom";
@@ -32,6 +33,7 @@ class App extends Component {
           <Switch>
             <Route path="/" exact component={Main} />
             <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
           </Switch>
       </div>
     );
